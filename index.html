@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>fullpage演示</title>
+  <!-- 动画组件 -->
+  <link rel="stylesheet" href="./lib/zepto-full-page/animate.min.css">
+  <!-- 页面动画组件 -->
+  <link rel="stylesheet" href="./lib/zepto-full-page/page-animation-min.css">
+  <!-- 基础页面组件 -->
+  <link rel="stylesheet" href="./lib/zepto-full-page/base.css">
+  <!-- fullpage组件 -->
+  <link rel="stylesheet" href="./lib/zepto-full-page/zepto.fullpage.css">
+</head>
+<body>
+  <!-- 背景音乐
+  <div id="music" class="music">
+    <a class="music-btn"></a>
+  </div> -->
+  <div class="wp">
+    <!-- 布局容器 -->
+    <div class="wp-inner">
+      <div class="page page1 ">
+        1
+      </div>
+      <div class="page page2">2</div>
+      <div class="page page3">3</div>
+      <div class="page page4">4</div>
+    </div>
+    <!-- 右侧指示器 -->
+    <ul class="indicator">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+    </ul>
+  </div>
+  <!-- 上划提示 -->
+  <span class="start">
+    <b></b>
+  </span>
+  <!-- zepto -->
+  <script src="./lib/zepto/zepto.js"></script>
+  <!-- zepto.fullpage -->
+  <script src="./lib/zepto-full-page/zepto.fullpage.min.js"></script>
+  <script src="./lib/rem.js"></script>
+  <script>
+    // 解决低分辨率问题
+    if (window.innerHeight > 480) {
+      // 配置fullpage
+      $('.wp-inner').fullpage({
+        page: '.page', //每屏的选择符，默认是 .page。
+        start: 0, //从第几屏开始，默认是第一屏。
+        duration: 500, //每屏动画切换的时间，这段时间内，不能重复切换，默认是500ms，这里只是js限制，css动画时间需要更改css文件。
+        drag: false, //是否开启拖动功能，默认关闭。
+        loop: true, //是否开启循环滚动，默认false。
+        dir: 'v', //切换方向，默认垂直方向(v|h)。
+        der: 0.1, //当滑动距离大于一个值时，才会引起滑动现象，滑动距离=der*屏幕高度|宽度，默认值为0.1
+        change: function (e) { //当切换屏幕时会触发的事件
+          $('.indicator li').removeClass('cur').eq(e.cur).addClass('cur');
+          console.log(e.cur)
+          if (e.cur > 0) {
+            $('.page').addClass('pt-page-scaleOutUp')
+          }
+        },
+        beforeChange: function (e) { //当切换屏幕之前会触发的事件
+          
+        },
+        afterChange: function (e) { //当切换屏幕之后会触发的事件
+          if (e.cur > 0) {
+            $('.page').removeClass('pt-page-scaleOutUp')
+          }
+        },
+        orientationchange: function (e) { //当屏幕发生旋转时的回调。
+
+        }
+      });
+
+      // 背景音乐
+      // var bgAudio = new Audio();
+      // bgAudio.loadStatus = 'unload';
+      // bgAudio.loop = true;
+      // function loadAudio(audio, url, callback) {
+      //   audio.src = url;
+      //   audio.load();
+      //   audio.addEventListener('canplay', function () {
+      //     bgAudio.loadStatus = 'loaded';
+      //     callback();
+      //   });
+      //   audio.addEventListener('loadstart', function () {
+      //     bgAudio.loadStatus = 'loading';
+      //   });
+      // }
+      // function playAudio() {
+      //   if (bgAudio.loadStatus === 'unload') {
+      //     loadAudio(bgAudio, 'media/bg.mp3', function () {
+      //       playAudio();
+      //     });
+      //     return 1;
+      //   }
+
+      //   bgAudio.play();
+      // }
+      // function stopAudio() {
+      //   bgAudio.pause();
+      // }
+      // bgAudio.addEventListener('playing', function (e) {
+      //   $('#music .music-btn').addClass('play');
+      // });
+      // bgAudio.addEventListener('pause', function (e) {
+      //   $('#music .music-btn').removeClass('play');
+      // });
+      // $('body').one('touchstart', function () {
+      //   playAudio();
+      //   $('#music').on('touchstart', function (e) {
+      //     if (bgAudio.paused) {
+      //       playAudio();
+      //       return 0;
+      //     }
+      //     stopAudio();
+      //     return 1;
+      //   });
+      // });
+      // window.onload = function () {
+      //   if (bgAudio.loadStatus !== 'unload') {
+      //     return;
+      //   }
+      //   playAudio();
+      // };
+    } else {
+      // 小于480 不在单屏滚动
+      $('.wp').css('overflow', 'visible');
+      // 每屏最小高度为屏幕高度
+      $('.page').css('min-height', window.innerHeight);
+    }
+  </script>
+</body>
+
+</html>
